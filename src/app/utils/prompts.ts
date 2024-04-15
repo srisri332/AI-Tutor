@@ -55,7 +55,7 @@ const prompts = [
   },
 ];
 
-function getStudyPlan(
+export function getStudyPlan(
   id: string = "",
   experience: Number = 0,
   technologies: string = "",
@@ -79,7 +79,11 @@ function getStudyPlan(
     : "Error occured while generating prompt";
 }
 
-function checkAnswer(id: string, question: string, answer: string): string {
+export function checkAnswer(
+  id: string,
+  question: string,
+  answer: string
+): string {
   const matchingPrompt = prompts.find((prompt) => prompt.id === id);
   if (!matchingPrompt) {
     logger.error("", `Prompt with ID '${id}' not found.`);
