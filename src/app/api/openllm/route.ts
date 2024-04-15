@@ -2,14 +2,17 @@ import { NextResponse } from "next/server";
 import ollama from "ollama";
 import OpenAI from "openai";
 
-const logger = require("@/app/utils/logger");
+import logger from "@/app/utils/logger";
+import { time } from "console";
+
+var now = new Date().toLocaleTimeString();
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function GET() {
-  logger.info("Starting prompt");
+  logger.info(now, `Prompting: You are a helpful assistant`);
 
   // const completion = await openai.chat.completions.create({
   //   messages: [{ role: "system", content: "You are a helpful assistant." }],
@@ -17,7 +20,7 @@ export async function GET() {
   // });
 
   // console.log(completion.choices[0]);
-  logger.info("Prompt Completed");
+  logger.info(now, "Prompt Completed");
   return NextResponse.json({ message: "test" });
 }
 

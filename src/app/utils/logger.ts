@@ -1,3 +1,2 @@
-const logger = require("npmlog");
-logger.addTimestamp = true;
-module.exports = logger;
+import npmlog from "npmlog";
+export default npmlog;
