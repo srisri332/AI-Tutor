@@ -2,6 +2,7 @@ import OpenAI from "openai";
 
 import logger from "@/app/utils/logger";
 import { getStudyPlan } from "@/app/utils/prompts";
+import { json } from "stream/consumers";
 
 var now = new Date().toLocaleTimeString();
 
@@ -15,8 +16,8 @@ export async function generateStudyPlanForUser(
   technologies: string,
   weeks: Number,
   questions: Number
-): Promise<string> {
-  const studyPlanPrompt = getStudyPlan(
+): Promise<Object> {
+  const studyPlanPromptObj = getStudyPlan(
     id,
     experience,
     technologies,
@@ -24,14 +25,25 @@ export async function generateStudyPlanForUser(
     questions
   );
 
-  logger.info(now, `PROMPTING: ${studyPlanPrompt}`);
+  logger.info(now, `PROMPTING: ${studyPlanPromptObj.value}`);
+  // console.log(studyPlanPromptObj.jsonExample);
 
   const completion = await openai.chat.completions.create({
-    messages: [{ role: "system", content: studyPlanPrompt }],
-    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content:
+          "Provide output in valid JSON. The data schema should be like this: " +
+          JSON.stringify(studyPlanPromptObj.jsonExample),
+      },
+      { role: "user", content: studyPlanPromptObj.value },
+    ],
+    model: "gpt-3.5-turbo-0125",
+    response_format: { type: "json_object" },
+    temperature: 0.2,
   });
-  console.log(completion.choices[0]);
+  // console.log(completion.choices[0]);
 
   logger.info(now, "PROMPT COMPLETED");
-  return "success";
+  return JSON.parse(completion.choices[0].message.content!);
 }

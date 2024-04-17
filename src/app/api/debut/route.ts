@@ -31,24 +31,62 @@ export async function POST(req: Request) {
         skills: body.skills,
         weeks: body.weeks,
         questions: body.questions,
-        user_id: "messga84baf86c-0c7b-4888-ae0b-e7d55c631767",
+        user_id: user.id,
+        // user_id: "84baf86c-0c7b-4888-ae0b-e7d55c631767", // use this for testing
       },
     ])
     .select();
 
-  // TODO: add complete logic to call openai api to generate questions for user
-  let userPreferences = data[0];
-  let messgae = await generateStudyPlanForUser(
-    "SINGLE_TECH",
-    userPreferences.experience,
-    userPreferences.skills,
-    userPreferences.weeks,
-    userPreferences.questions
-  );
+  if (error != null) {
+    logger.error("", error);
+    throw new Error(error.toString());
+  }
 
-  // TODO: store the genearted questiong in database
+  let userPreferences = data[0];
+
+  // skills must be comma separated values
+  // TODO: add validation in frontend for this
+  let skills = userPreferences.skills.replace(/\s+/g, "").split(",");
+  let studyPlans: any[] = [];
+
+  Promise.all(
+    skills.map(async (skill: string) => {
+      // TODO: add complete logic to call openai api to generate questions for user
+      let generatedSinglePlan = await generateStudyPlanForUser(
+        "SINGLE_TECH",
+        userPreferences.experience,
+        skill,
+        userPreferences.weeks,
+        userPreferences.questions
+      );
+      studyPlans.push({ skill: skill, questions: generatedSinglePlan });
+    })
+  ).then(() => {
+    console.log(studyPlans);
+    Promise.all(
+      studyPlans.map(async (studyPlan) => {
+        // TODO: store the genearted questiong in database
+        let { data, error }: any = await supabase
+          .from("study_plan")
+          .insert([
+            {
+              technology: studyPlan.skill,
+              questions: studyPlan.questions,
+              user_id: user.id,
+              // user_id: "84baf86c-0c7b-4888-ae0b-e7d55c631767", // use this for testing
+            },
+          ])
+          .select();
+
+        if (error != null) {
+          logger.error("", error);
+          throw new Error(error.toString());
+        }
+      })
+    );
+  });
 
   return NextResponse.json({
-    message: messgae,
+    message: "success",
   });
 }
