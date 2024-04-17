@@ -1,14 +1,23 @@
 "use client";
+import React from "react";
+import { Label } from "../../../components/ui/label";
+import { Input } from "../../../components/ui/input";
+import { cn } from "@/lib/utils";
+import { IconBrandGithub } from "@tabler/icons-react";
+import { LampContainer } from "@/app/components/acernity/Lamp";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   createClientComponentClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AuthApiError } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function Home() {
+export default function Login() {
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -30,8 +39,8 @@ export default function Home() {
     () => {};
   }, []);
 
-  const reRoute = () => {
-    router.push("/");
+  const redirect = (path: string) => {
+    router.push(path);
   };
 
   const clearInputFields = async () => {
@@ -39,26 +48,68 @@ export default function Home() {
     setPassword("");
   };
 
-  const handleUserSignUp = async () => {
+  const invalidCredToast = () => {
+    toast({
+      title: "Invalid email and password",
+      variant: "destructive",
+    });
+  };
+
+  const serverErrorToast = () => {
+    toast({
+      title: "Server Error",
+      variant: "destructive",
+    });
+  };
+
+  const handleUserJoin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email || !password) {
+      invalidCredToast();
+      return;
+    }
+    let redirectToPlanning = true;
+    let userData = null;
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
+    if (error) {
+      if (error.message === "User already registered") {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        if (error) {
+          if (error?.message === "Invalid login credentials") {
+            invalidCredToast();
+          } else {
+            serverErrorToast();
+          }
+          return;
+        }
+        redirectToPlanning = false;
+        userData = data.user;
+      } else {
+        serverErrorToast();
+      }
+    } else {
+      userData = data.user;
+    }
     router.refresh();
     setUser(data.user);
     clearInputFields();
-    reRoute()
-  };
-
-  const handleUserSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    router.refresh();
-    setUser(data.user);
-    clearInputFields();
-    reRoute();
+    if (!redirectToPlanning) {
+      let { data, error }: any = await supabase
+        .from("preferences")
+        .select()
+        .eq("user_id", userData.id);
+      // .eq("user_id", "84baf86c-0c7b-4888-ae0b-e7d55c631767");
+      if (data.length == 0) {
+        redirectToPlanning = true;
+      }
+    }
+    redirect(redirectToPlanning ? "/planning" : "/");
   };
 
   const logOutUser = async () => {
@@ -68,10 +119,27 @@ export default function Home() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <LampContainer className="pt-32">
+          <motion.div
+            initial={{ opacity: 0.5, y: 150 }}
+            whileInView={{ opacity: 1, y: 150 }}
+            // transition={{
+            //   delay: 0.1,
+            //   duration: 0.5,
+            //   ease: "easeInOut",
+            // }}
+            className="w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
+          ></motion.div>
+        </LampContainer>
+      </div>
+    );
   }
 
   if (user) {
+    // TODO: reroute later: if logged in, this route should not be accessible
+    // reRoute()
     return (
       <div>
         <Button onClick={logOutUser}>Sign Out</Button>
@@ -81,19 +149,69 @@ export default function Home() {
 
   return (
     <div>
-      <Input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      ></Input>
-
-      <Input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      ></Input>
-      <Button onClick={handleUserSignUp}>Sign Up</Button>
-      <Button onClick={handleUserSignIn}>Sign In</Button>
+      <LampContainer className="pt-32">
+        <motion.div
+          initial={{ opacity: 0.5, y: 300 }}
+          whileInView={{ opacity: 1, y: 150 }}
+          transition={{
+            delay: 0.1,
+            duration: 0.5,
+            ease: "easeInOut",
+          }}
+          className="w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
+        >
+          <form className="my-6" onSubmit={handleUserJoin}>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                placeholder="projectmayhem@fc.com"
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                placeholder="••••••••"
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </LabelInputContainer>
+            <button
+              className="bg-gradient-to-br mt-8 relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              type="submit"
+            >
+              Join &rarr;
+              <BottomGradient />
+            </button>
+          </form>
+        </motion.div>
+      </LampContainer>
     </div>
   );
 }
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
+    </>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex flex-col space-y-2 w-full", className)}>
+      {children}
+    </div>
+  );
+};
