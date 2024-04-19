@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AuthApiError } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 
 export default function Login() {
   const { toast } = useToast();
@@ -100,17 +101,31 @@ export default function Login() {
     setUser(data.user);
     clearInputFields();
     if (!redirectToPlanning) {
-      let { data, error }: any = await supabase
-        .from("preferences")
-        .select()
-        .eq("user_id", userData?.id);
-      // .eq("user_id", "84baf86c-0c7b-4888-ae0b-e7d55c631767");
-      if (data.length == 0) {
-        redirectToPlanning = true;
-      }
+      const userAlreadyHasPreferences = await checkIfUserAlreadyHasPreferences();
+      redirectToPlanning = !userAlreadyHasPreferences;
+      console.log('asdf', redirectToPlanning)
     }
     redirect(redirectToPlanning ? "/pages/planning" : "/");
   };
+
+  const checkIfUserAlreadyHasPreferences = async () => {
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3000/api/skills",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await axios.request(config);
+    console.log('asdf response', response)
+    if(response.data.length > 0) {
+      console.log('asdf came here')
+      return true;
+    }
+    return false;
+  }
 
   if (loading) {
     return (
@@ -124,6 +139,10 @@ export default function Login() {
         </LampContainer>
       </div>
     );
+  }
+
+  if(user) {
+    redirect('/')
   }
 
   return (
