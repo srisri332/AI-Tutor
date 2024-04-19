@@ -103,19 +103,13 @@ export default function Login() {
       let { data, error }: any = await supabase
         .from("preferences")
         .select()
-        .eq("user_id", userData.id);
+        .eq("user_id", userData?.id);
       // .eq("user_id", "84baf86c-0c7b-4888-ae0b-e7d55c631767");
       if (data.length == 0) {
         redirectToPlanning = true;
       }
     }
-    redirect(redirectToPlanning ? "/planning" : "/");
-  };
-
-  const logOutUser = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-    setUser(null);
+    redirect(redirectToPlanning ? "/pages/planning" : "/");
   };
 
   if (loading) {
@@ -125,24 +119,9 @@ export default function Login() {
           <motion.div
             initial={{ opacity: 0.5, y: 150 }}
             whileInView={{ opacity: 1, y: 150 }}
-            // transition={{
-            //   delay: 0.1,
-            //   duration: 0.5,
-            //   ease: "easeInOut",
-            // }}
             className="w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
           ></motion.div>
         </LampContainer>
-      </div>
-    );
-  }
-
-  if (user) {
-    // TODO: reroute later: if logged in, this route should not be accessible
-    // reRoute()
-    return (
-      <div>
-        <Button onClick={logOutUser}>Sign Out</Button>
       </div>
     );
   }
