@@ -60,13 +60,13 @@ function Dashboard() {
           </div>
           <hr />
           <div className='flex justify-center '>
-            <div className=' w-3/4 min-h-screen  rounded-lg container  grid grid-cols-3'>
+            <div className=' w-3/4 min-h-max  rounded-lg container  grid grid-cols-3'>
               {/* <div className='container m-auto grid grid-cols-3'> */}
 
               {plans.map((plan: any) => {
                 return (
                   <div key={plan}>
-                    <Card className='w-[250px] ml-10 '>
+                    <Card className='w-[250px] ml-10 mt-5'>
                       <CardHeader>
                         <CardTitle>{plan}</CardTitle>
                         <CardDescription>Everybody hates it</CardDescription>
