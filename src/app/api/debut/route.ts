@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { generateStudyPlanForUser } from "@/app/utils/openllm";
 import { supabase } from "@/app/utils/supabaseClient";
 import logger from "@/app/utils/logger";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export function GET(requst: Request, context: any) {
   return NextResponse.json({
@@ -12,6 +14,11 @@ export function GET(requst: Request, context: any) {
 // TODO: use this route to process the submitted skills, experience and learning pace.
 export async function POST(req: Request) {
   let body = await req.json();
+
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  });
 
   const {
     data: { user },
