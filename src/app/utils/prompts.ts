@@ -10,6 +10,7 @@ const prompts = [
         {
           id: 1,
           question: "question1",
+          completed: false,
         },
       ],
     },
@@ -35,6 +36,7 @@ const prompts = [
         {
           id: 1,
           question: "question1",
+          completed: false,
         },
       ],
     },

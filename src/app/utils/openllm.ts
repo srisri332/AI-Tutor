@@ -1,14 +1,31 @@
 import OpenAI from "openai";
 
 import logger from "@/app/utils/logger";
-import { getStudyPlan } from "@/app/utils/prompts";
-import { json } from "stream/consumers";
+import { checkAnswer, getStudyPlan } from "@/app/utils/prompts";
 
 var now = new Date().toLocaleTimeString();
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+async function callGptApi(prompt: any) {
+  const completion = await openai.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content:
+          "Provide output in valid JSON. The data schema should be like this: " +
+          JSON.stringify(prompt.jsonExample),
+      },
+      { role: "user", content: prompt.value },
+    ],
+    model: "gpt-3.5-turbo-0125",
+    response_format: { type: "json_object" },
+    temperature: 0.2,
+  });
+  return completion;
+}
 
 export async function generateStudyPlanForUser(
   id: string,
@@ -18,7 +35,7 @@ export async function generateStudyPlanForUser(
   questions: Number
 ): Promise<Object> {
   const studyPlanPromptObj = getStudyPlan(
-    id,
+    "SINGLE_TECH",
     experience,
     technologies,
     weeks,
@@ -26,24 +43,19 @@ export async function generateStudyPlanForUser(
   );
 
   logger.info(now, `PROMPTING: ${studyPlanPromptObj.value}`);
-  // console.log(studyPlanPromptObj.jsonExample);
-
-  const completion = await openai.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content:
-          "Provide output in valid JSON. The data schema should be like this: " +
-          JSON.stringify(studyPlanPromptObj.jsonExample),
-      },
-      { role: "user", content: studyPlanPromptObj.value },
-    ],
-    model: "gpt-3.5-turbo-0125",
-    response_format: { type: "json_object" },
-    temperature: 0.2,
-  });
-  // console.log(completion.choices[0]);
-
+  const completion = await callGptApi(studyPlanPromptObj);
   logger.info(now, "PROMPT COMPLETED");
+
+  return JSON.parse(completion.choices[0].message.content!);
+}
+
+export async function processAnswer(question: string, answer: string) {
+  const checkAnswePromptObj = checkAnswer("CHECK_ANSWER", question, answer);
+
+  logger.info(now, `PROMPTING: ${checkAnswePromptObj.value}`);
+  const completion: any = await callGptApi(checkAnswePromptObj);
+  logger.info(now, "PROMPT COMPLETED");
+  // console.log(completion[0]);
+
   return JSON.parse(completion.choices[0].message.content!);
 }

@@ -3,13 +3,13 @@ import { generateStudyPlanForUser } from "@/app/utils/openllm";
 import { supabase } from "@/app/utils/supabaseClient";
 import logger from "@/app/utils/logger";
 
-// TODO: use this route to process the submitted skills, experience and learning pace.
 export function GET(requst: Request, context: any) {
   return NextResponse.json({
     message: `process skills, experience and generate questions`,
   });
 }
 
+// TODO: use this route to process the submitted skills, experience and learning pace.
 export async function POST(req: Request) {
   let body = await req.json();
 
