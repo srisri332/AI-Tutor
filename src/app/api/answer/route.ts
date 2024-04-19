@@ -2,6 +2,8 @@ import { supabase } from "@/app/utils/supabaseClient";
 import logger from "@/app/utils/logger";
 import { processAnswer } from "@/app/utils/openllm";
 import { NextResponse } from "next/server";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 async function updateCompletedStatus(
   study_plan: any,
@@ -26,6 +28,11 @@ async function updateCompletedStatus(
 
 export async function POST(req: Request) {
   let body = await req.json();
+
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({
+    cookies: () => cookieStore,
+  });
 
   const {
     data: { user },

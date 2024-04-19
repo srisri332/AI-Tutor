@@ -1,5 +1,70 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
 
-export default function dashboard() {
-  return <div>Dashboard</div>;
+function Dashboard() {
+  const [plans, setPlan]: any = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/skills")
+      .then((data: any) => {
+        // the data of skills should be comma separated values
+        let skills = data.data[0].skills.replace(/\s+/g, "").split(",");
+        setPlan([...skills]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  return (
+    <>
+      <div className='flex justify-around mt-10 '>
+        <span>
+          <p className='text-4xl font-bold'>Hello User!</p>
+          <p className='text-lg'>Pick a study-plan</p>
+        </span>
+        <Avatar>
+          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </div>
+      <hr />
+      <div className='flex justify-center '>
+        <div className=' w-3/4 min-h-screen  rounded-lg container  grid grid-cols-3'>
+          {/* <div className='container m-auto grid grid-cols-3'> */}
+
+          {plans.map((plan: any) => {
+            return (
+              <div key={plan}>
+                <Card className='w-[250px] ml-10 '>
+                  <CardHeader>
+                    <CardTitle>{plan}</CardTitle>
+                    <CardDescription>Everybody hates it</CardDescription>
+                  </CardHeader>
+                  {/* <CardContent><p>Card Content</p></CardContent> */}
+                  <CardFooter>
+                    <Button>Practice</Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
 }
+
+export default Dashboard;
