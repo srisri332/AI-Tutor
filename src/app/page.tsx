@@ -1,55 +1,48 @@
-// "use client";
+"use client";
 import Image from "next/image";
 import {
   createClientComponentClient,
-  createServerComponentClient,
   User,
 } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-// import { useEffect, useState } from "react";
-import { cookies } from "next/headers";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default async function Home() {
-  // const [user, setUser] = useState<User | null>(null);
-  // const [loading, setLoading] = useState(true);
-  // const router = useRouter();
+export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  // const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient();
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     setUser(user);
-  //     setLoading(false);
-  //   };
-  //   getUser();
-  //   () => {};
-  // }, []);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+      setLoading(false);
+    };
+    getUser();
+    () => {};
+  }, []);
 
-  // const logOutUser = async () => {
-  //   await supabase.auth.signOut();
-  // };
-
-  // console.log("asdf", user);
+  const logOutUser = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+    setUser(null);
+  };
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {!user ? (
         <div>
           <Link href={"/auth/login"}>LOGIN HERE</Link>
         </div>
       ) : (
         <div>
-          <Link href={"/auth/login"}>LOGOUT HERE</Link>
+          <Button onClick={logOutUser}>Sign Out</Button>
         </div>
       )}
     </main>
