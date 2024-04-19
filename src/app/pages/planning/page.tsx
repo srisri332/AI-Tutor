@@ -6,15 +6,40 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { skills } from "@/app/utils/skills";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Planning() {
   const [value, setValue] = React.useState<Option[]>([]);
   const [experience, setExperience] = useState(3);
   const [duration, setDuration] = useState(2);
   const [questions, setQuestions] = useState(1);
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    const router = useRouter();
+
+    let data = JSON.stringify({
+      experience,
+      skills: value.map((e) => e.label).join(","),
+      weeks: duration,
+      questions,
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3000/api/debut",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    const response = await axios.request(config);
+    if (response && response?.data?.message === "success") {
+      router.push("/pages/dashboard");
+    }
   };
   const OPTIONS: Option[] = skills;
 
@@ -95,8 +120,9 @@ export default function Planning() {
         </div>
 
         <button
-          className='bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
-          type='submit'>
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          type="submit"
+        >
           Let&apos;s Get Started &rarr;
           <BottomGradient />
         </button>
