@@ -106,7 +106,7 @@ export default function Login() {
       redirectToPlanning = !userAlreadyHasPreferences;
       console.log("asdf", redirectToPlanning);
     }
-    redirect(redirectToPlanning ? "/pages/planning" : "/");
+    redirect(redirectToPlanning ? "/pages/planning" : "/pages/dashboard");
   };
 
   const checkIfUserAlreadyHasPreferences = async () => {

@@ -18,6 +18,13 @@ import {
 import { Underdog } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { BackgroundBeams } from "@/app/components/acernity/background-beams";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function Dashboard() {
   const [plans, setPlan]: any = useState([]);
@@ -52,6 +59,14 @@ function Dashboard() {
     //     console.log(skill);
   }
 
+  async function signOutUser() {
+    console.log("signoit");
+    await supabase.auth.signOut();
+    router.refresh();
+    router.push("/auth/login");
+    setUser(null);
+  }
+
   return (
     <>
       <>
@@ -62,13 +77,28 @@ function Dashboard() {
                 <p className='text-4xl font-bold'>Hello User!</p>
                 <p className='text-lg'>Pick a study-plan</p>
               </span>
-              <Avatar>
-                <AvatarImage
-                  src='https://github.com/shadcn.png'
-                  alt='@shadcn'
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  {/* <Button variant='outline' className='z-10'>
+                    Open
+                  </Button> */}
+                  <Avatar className='z-10 hover:cursor-pointer'>
+                    <AvatarImage
+                      src='https://github.com/shadcn.png'
+                      alt='@shadcn'
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='w-56'>
+                  <DropdownMenuItem>My Account</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOutUser}>
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <hr />
             <div className='flex justify-center '>

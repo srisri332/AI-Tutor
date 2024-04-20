@@ -68,7 +68,7 @@ function Page({ params }: PageProps) {
         return (
           <div
             key={week.week}
-            className=' w-3/4 min-h-max mt-5 mb-5 dark:bg-black/30 p-10 backdrop-filter backdrop-blur-lg '>
+            className=' w-3/4 min-h-max mt-5 mb-5 bg-slate-900 p-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-md shadow-gray-900'>
             <p className='text-2xl font-bold mb-2'>{week.week}</p>
             {week.questions.map((question: any) => {
               return (
