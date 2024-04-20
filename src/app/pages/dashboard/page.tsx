@@ -72,10 +72,10 @@ function Dashboard() {
       <>
         {user !== undefined && user != null ? (
           <>
-            <div className='flex justify-around mt-10 '>
+            <div className="flex justify-around mt-10 ">
               <span>
-                <p className='text-4xl font-bold'>Hello User!</p>
-                <p className='text-lg'>Pick a study-plan</p>
+                <p className="text-4xl font-bold">Hello User!</p>
+                <p className="text-lg">Pick a study-plan</p>
               </span>
 
               <DropdownMenu>
@@ -83,15 +83,15 @@ function Dashboard() {
                   {/* <Button variant='outline' className='z-10'>
                     Open
                   </Button> */}
-                  <Avatar className='z-10 hover:cursor-pointer'>
+                  <Avatar className="z-10 hover:cursor-pointer">
                     <AvatarImage
-                      src='https://github.com/shadcn.png'
-                      alt='@shadcn'
+                      src="https://github.com/shadcn.png"
+                      alt="@shadcn"
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-56'>
+                <DropdownMenuContent className="w-56">
                   <DropdownMenuItem>My Account</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOutUser}>
@@ -101,14 +101,14 @@ function Dashboard() {
               </DropdownMenu>
             </div>
             <hr />
-            <div className='flex justify-center '>
-              <div className=' w-3/4 min-h-max  rounded-lg container  grid grid-cols-3'>
+            <div className="flex justify-center ">
+              <div className=" w-3/4 min-h-max  rounded-lg container  grid grid-cols-3">
                 {/* <div className='container m-auto grid grid-cols-3'> */}
 
                 {plans.map((plan: any) => {
                   return (
                     <div key={plan}>
-                      <Card className='w-[250px] ml-10 mt-5 bg-slate-800'>
+                      <Card className="w-[250px] ml-10 mt-5 bg-slate-800">
                         <CardHeader>
                           <CardTitle>{plan}</CardTitle>
                           <CardDescription>Everybody hates it</CardDescription>
@@ -116,8 +116,9 @@ function Dashboard() {
                         {/* <CardContent><p>Card Content</p></CardContent> */}
                         <CardFooter>
                           <Button
-                            className='z-10  w-full'
-                            onClick={() => navigateToSkillPage(plan)}>
+                            className="z-10  w-full"
+                            onClick={() => navigateToSkillPage(plan)}
+                          >
                             Practice
                           </Button>
                         </CardFooter>
@@ -130,8 +131,8 @@ function Dashboard() {
             </div>
           </>
         ) : (
-          <div className='h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased'>
-            <div className='max-w-2xl mx-auto p-4'>
+          <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
+            <div className="max-w-2xl mx-auto p-4">
               Login before you proceed.
             </div>
           </div>

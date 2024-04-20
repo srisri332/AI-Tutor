@@ -131,11 +131,12 @@ export default function Login() {
   if (loading) {
     return (
       <div>
-        <LampContainer className='pt-32'>
+        <LampContainer className="pt-32">
           <motion.div
             initial={{ opacity: 0.5, y: 150 }}
             whileInView={{ opacity: 1, y: 150 }}
-            className='w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32'></motion.div>
+            className="w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
+          ></motion.div>
         </LampContainer>
       </div>
     );
@@ -147,7 +148,7 @@ export default function Login() {
 
   return (
     <div>
-      <LampContainer className='pt-32'>
+      <LampContainer className="pt-32">
         <motion.div
           initial={{ opacity: 0.5, y: 300 }}
           whileInView={{ opacity: 1, y: 150 }}
@@ -156,31 +157,33 @@ export default function Login() {
             duration: 0.5,
             ease: "easeInOut",
           }}
-          className='w-80 h-[22rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black/50 pt-32 isolate aspect-video  bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg '>
-          <form className='my-6' onSubmit={handleUserJoin}>
-            <LabelInputContainer className='mb-4 '>
-              <Label htmlFor='email'>Email Address</Label>
+          className="w-80 h-[22rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black/50 pt-32 isolate aspect-video  bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg "
+        >
+          <form className="my-6" onSubmit={handleUserJoin}>
+            <LabelInputContainer className="mb-4 ">
+              <Label htmlFor="email">Email Address</Label>
               <Input
-                id='email'
-                placeholder='spiderman@gmail.com'
-                type='email'
-                className='backdrop-filter backdrop-blur-lg'
+                id="email"
+                placeholder="spiderman@gmail.com"
+                type="email"
+                className="backdrop-filter backdrop-blur-lg"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </LabelInputContainer>
-            <LabelInputContainer className='mb-4'>
-              <Label htmlFor='password'>Password</Label>
+            <LabelInputContainer className="mb-4">
+              <Label htmlFor="password">Password</Label>
               <Input
-                id='password'
-                placeholder='••••••••'
-                type='password'
-                className='backdrop-filter backdrop-blur-lg'
+                id="password"
+                placeholder="••••••••"
+                type="password"
+                className="backdrop-filter backdrop-blur-lg"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </LabelInputContainer>
             <button
-              className='bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white  block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
-              type='submit'>
+              className="bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white  block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              type="submit"
+            >
               Join &rarr;
               <BottomGradient />
             </button>
@@ -194,8 +197,8 @@ export default function Login() {
 const BottomGradient = () => {
   return (
     <>
-      <span className='group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-gray-500 to-transparent' />
-      <span className='group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-gray-800 to-transparent' />
+      <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-gray-500 to-transparent" />
+      <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-gray-800 to-transparent" />
     </>
   );
 };
