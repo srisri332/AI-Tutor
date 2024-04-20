@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Router } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -17,35 +19,10 @@ interface PageProps {
   };
 }
 
-function AccordionDemo() {
-  return (
-    <Accordion type='single' collapsible className='w-full'>
-      <AccordionItem value='item-1'>
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value='item-2'>
-        <AccordionTrigger>Is it styled?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It comes with default styles that matches the other
-          components&apos; aesthetic.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value='item-3'>
-        <AccordionTrigger>Is it animated?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It&apos;s animated by default, but you can disable it if you
-          prefer.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  );
-}
-
 function Page({ params }: PageProps) {
   const [weeklyQuestions, setWeeklyQuestions]: any = useState([]);
+  const router = useRouter();
+
   useEffect(() => {
     let data = JSON.stringify({
       skill: `${params.skillname}`,
@@ -76,12 +53,18 @@ function Page({ params }: PageProps) {
 
   return (
     <div className='flex flex-col justify-center items-center min-w-screen min-h-max '>
+      <Button
+        onClick={() => {
+          router.back();
+        }}
+        className='absolute left-0 top-0 m-5'>
+        back
+      </Button>
       <div>
         <p className='text-3xl font-bold mt-10'>{params.skillname}</p>
       </div>
 
       {weeklyQuestions.map((week: any) => {
-        console.log(week.questions);
         return (
           <div
             key={week.week}

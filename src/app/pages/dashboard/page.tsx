@@ -48,7 +48,7 @@ function Dashboard() {
 
   function navigateToSkillPage(skill: string) {
     router.push(`/pages/skill/${skill}`);
-    console.log(skill);
+    //     console.log(skill);
   }
 
   return (

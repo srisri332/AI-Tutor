@@ -31,22 +31,22 @@ export async function POST(req: Request, context: any) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // if (!user) {
-  //   logger.error("", `User is not available`);
-  //   throw new Error(`user is not available`);
-  // }
+  if (!user) {
+    logger.error("", `User is not available`);
+    throw new Error(`user is not available`);
+  }
 
   var { data, error } = await supabase
     .from("study_plan")
     .select("questions")
-    // .eq("user_id", `${user.id}`)
-    .eq("user_id", `84baf86c-0c7b-4888-ae0b-e7d55c631767`)
+    .eq("user_id", `${user.id}`)
+    // .eq("user_id", `84baf86c-0c7b-4888-ae0b-e7d55c631767`) // use for testing
     .eq("technology", `${body.skill}`);
 
   let weeklyQuestions = data![0].questions;
   // console.log(weeklyQuestions);
   var res: any = [];
   await formatData(weeklyQuestions, res);
-  console.log(res);
+  // console.log(res);
   return NextResponse.json(res);
 }
