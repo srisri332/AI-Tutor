@@ -7,6 +7,17 @@ type ResponseData = {
   message: string;
 };
 
+async function formatData(weeklyQuestions: any, result: any): Promise<any> {
+  for (var week in weeklyQuestions) {
+    // console.log(week);
+    result.push({
+      week: week,
+      questions: weeklyQuestions[week],
+    });
+    // console.log(result);
+  }
+}
+
 // usage of routes to get params from URL
 export async function POST(req: Request, context: any) {
   const body = await req.json();
@@ -32,10 +43,10 @@ export async function POST(req: Request, context: any) {
     .eq("user_id", `84baf86c-0c7b-4888-ae0b-e7d55c631767`)
     .eq("technology", `${body.skill}`);
 
-  for (var i in data![0].questions) {
-    console.log(i);
-  }
-
-  console.log(body);
-  return NextResponse.json(data);
+  let weeklyQuestions = data![0].questions;
+  // console.log(weeklyQuestions);
+  var res: any = [];
+  await formatData(weeklyQuestions, res);
+  console.log(res);
+  return NextResponse.json(res);
 }
