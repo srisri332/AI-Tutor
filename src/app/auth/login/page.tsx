@@ -101,9 +101,10 @@ export default function Login() {
     setUser(data.user);
     clearInputFields();
     if (!redirectToPlanning) {
-      const userAlreadyHasPreferences = await checkIfUserAlreadyHasPreferences();
+      const userAlreadyHasPreferences =
+        await checkIfUserAlreadyHasPreferences();
       redirectToPlanning = !userAlreadyHasPreferences;
-      console.log('asdf', redirectToPlanning)
+      console.log("asdf", redirectToPlanning);
     }
     redirect(redirectToPlanning ? "/pages/planning" : "/");
   };
@@ -119,13 +120,13 @@ export default function Login() {
     };
 
     const response = await axios.request(config);
-    console.log('asdf response', response)
-    if(response.data.length > 0) {
-      console.log('asdf came here')
+    console.log("asdf response", response);
+    if (response.data.length > 0) {
+      console.log("asdf came here");
       return true;
     }
     return false;
-  }
+  };
 
   if (loading) {
     return (
@@ -140,8 +141,8 @@ export default function Login() {
     );
   }
 
-  if(user) {
-    redirect('/')
+  if (user) {
+    redirect("/");
   }
 
   return (
@@ -155,13 +156,13 @@ export default function Login() {
             duration: 0.5,
             ease: "easeInOut",
           }}
-          className='w-80 h-[22rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32 isolate aspect-video  bg-white/20 shadow-lg ring-1 ring-black/5  backdrop-filter backdrop-blur-lg '>
+          className='w-80 h-[22rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black/50 pt-32 isolate aspect-video  bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg '>
           <form className='my-6' onSubmit={handleUserJoin}>
             <LabelInputContainer className='mb-4 '>
               <Label htmlFor='email'>Email Address</Label>
               <Input
                 id='email'
-                placeholder='projectmayhem@fc.com'
+                placeholder='spiderman@gmail.com'
                 type='email'
                 className='backdrop-filter backdrop-blur-lg'
                 onChange={(e) => setEmail(e.target.value)}
@@ -178,7 +179,7 @@ export default function Login() {
               />
             </LabelInputContainer>
             <button
-              className='bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white dark:to-white block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
+              className='bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white  block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]'
               type='submit'>
               Join &rarr;
               <BottomGradient />
