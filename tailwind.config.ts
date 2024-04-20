@@ -26,6 +26,7 @@ const config = {
     },
     extend: {
       colors: {
+        dashCard: "#1c1a1e",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

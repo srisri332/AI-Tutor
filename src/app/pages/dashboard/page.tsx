@@ -17,6 +17,7 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import { Underdog } from "next/font/google";
 import { useRouter } from "next/navigation";
+import { BackgroundBeams } from "@/app/components/acernity/background-beams";
 
 function Dashboard() {
   const [plans, setPlan]: any = useState([]);
@@ -53,49 +54,59 @@ function Dashboard() {
 
   return (
     <>
-      {user !== undefined && user != null ? (
-        <>
-          <div className='flex justify-around mt-10 '>
-            <span>
-              <p className='text-4xl font-bold'>Hello User!</p>
-              <p className='text-lg'>Pick a study-plan</p>
-            </span>
-            <Avatar>
-              <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
-          <hr />
-          <div className='flex justify-center '>
-            <div className=' w-3/4 min-h-max  rounded-lg container  grid grid-cols-3'>
-              {/* <div className='container m-auto grid grid-cols-3'> */}
+      <>
+        {user !== undefined && user != null ? (
+          <>
+            <div className='flex justify-around mt-10 '>
+              <span>
+                <p className='text-4xl font-bold'>Hello User!</p>
+                <p className='text-lg'>Pick a study-plan</p>
+              </span>
+              <Avatar>
+                <AvatarImage
+                  src='https://github.com/shadcn.png'
+                  alt='@shadcn'
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </div>
+            <hr />
+            <div className='flex justify-center '>
+              <div className=' w-3/4 min-h-max  rounded-lg container  grid grid-cols-3'>
+                {/* <div className='container m-auto grid grid-cols-3'> */}
 
-              {plans.map((plan: any) => {
-                return (
-                  <div key={plan}>
-                    <Card className='w-[250px] ml-10 mt-5'>
-                      <CardHeader>
-                        <CardTitle>{plan}</CardTitle>
-                        <CardDescription>Everybody hates it</CardDescription>
-                      </CardHeader>
-                      {/* <CardContent><p>Card Content</p></CardContent> */}
-                      <CardFooter>
-                        <Button onClick={() => navigateToSkillPage(plan)}>
-                          Practice
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </div>
-                );
-              })}
+                {plans.map((plan: any) => {
+                  return (
+                    <div key={plan}>
+                      <Card className='w-[250px] ml-10 mt-5 bg-slate-800'>
+                        <CardHeader>
+                          <CardTitle>{plan}</CardTitle>
+                          <CardDescription>Everybody hates it</CardDescription>
+                        </CardHeader>
+                        {/* <CardContent><p>Card Content</p></CardContent> */}
+                        <CardFooter>
+                          <Button
+                            className='z-10  w-full'
+                            onClick={() => navigateToSkillPage(plan)}>
+                            Practice
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    </div>
+                  );
+                })}
+              </div>
+              <BackgroundBeams />
+            </div>
+          </>
+        ) : (
+          <div className='h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased'>
+            <div className='max-w-2xl mx-auto p-4'>
+              Login before you proceed.
             </div>
           </div>
-        </>
-      ) : (
-        <div className='flex justify-center align-middle min-h-screen min-w-screen'>
-          <p>Sanka Naaku. Login Avvu mundu.</p>
-        </div>
-      )}
+        )}
+      </>
     </>
   );
 }
