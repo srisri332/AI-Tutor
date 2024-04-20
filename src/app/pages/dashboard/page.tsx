@@ -16,12 +16,14 @@ import {
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
 import { Underdog } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 function Dashboard() {
   const [plans, setPlan]: any = useState([]);
   const [user, setUser] = useState<User | null>(null);
 
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   useEffect(() => {
     const getUser = async () => {
@@ -43,6 +45,11 @@ function Dashboard() {
         console.log(error);
       });
   }, []);
+
+  function navigateToSkillPage(skill: string) {
+    router.push(`/pages/skill/${skill}`);
+    console.log(skill);
+  }
 
   return (
     <>
@@ -73,7 +80,9 @@ function Dashboard() {
                       </CardHeader>
                       {/* <CardContent><p>Card Content</p></CardContent> */}
                       <CardFooter>
-                        <Button>Practice</Button>
+                        <Button onClick={() => navigateToSkillPage(plan)}>
+                          Practice
+                        </Button>
                       </CardFooter>
                     </Card>
                   </div>
@@ -83,7 +92,9 @@ function Dashboard() {
           </div>
         </>
       ) : (
-        <p>Sanka Naaku. Login Avvu mundu.</p>
+        <div className='flex justify-center align-middle min-h-screen min-w-screen'>
+          <p>Sanka Naaku. Login Avvu mundu.</p>
+        </div>
       )}
     </>
   );
