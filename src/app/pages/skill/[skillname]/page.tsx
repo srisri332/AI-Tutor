@@ -201,7 +201,6 @@ function Page({ params }: PageProps) {
                                   <p className='font-bold'> Explanation</p>
                                   <p className='text-slate-400'>
                                     {question.explanation}
-                                    {test}
                                   </p>
                                 </div>
                                 <div className='m-2 whitespace-pre-line'>
