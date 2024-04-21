@@ -34,7 +34,7 @@ export default function Login() {
         data: { user },
       } = await supabase.auth.getUser();
       if (user) {
-        redirect("/pages/dashboard")
+        redirect("/pages/dashboard");
       }
       setLoading(false);
     };
@@ -55,6 +55,19 @@ export default function Login() {
     toast({
       title: "Invalid email and password",
       variant: "destructive",
+    });
+  };
+
+  const enterEmailToReset = () => {
+    toast({
+      title: "Enter your email to reset password",
+      variant: "destructive",
+    });
+  };
+
+  const checkEmailForResetLink = () => {
+    toast({
+      title: "Check your email for reset link",
     });
   };
 
@@ -87,6 +100,21 @@ export default function Login() {
     clearInputFields();
     redirectOnDemand();
   };
+
+  // const handleResetPassword = async () => {
+  //   if (!email) {
+  //     enterEmailToReset();
+  //     return;
+  //   }
+  //   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+  //     redirectTo: "http://localhost:3000/auth/reset",
+  //   });
+  //   if (error) {
+  //     serverErrorToast();
+  //     return;
+  //   }
+  //   checkEmailForResetLink();
+  // };
 
   const redirectOnDemand = async () => {
     const userAlreadyHasPreferences = await checkIfUserAlreadyHasPreferences();
@@ -166,6 +194,12 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </LabelInputContainer>
+            {/* <div
+              className="text-xs underline z-10"
+              onClick={(e) => handleResetPassword()}
+            >
+              Reset Password
+            </div> */}
             <button
               className="bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white  block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
               type="submit"
