@@ -73,9 +73,13 @@ export async function POST(req: Request) {
       .update({ questions: study_plan })
       .eq("id", `${body.plan_id}`)
       .select();
+
+    return NextResponse.json({
+      message: "success",
+    });
   }
 
   return NextResponse.json({
-    message: "success",
+    message: "failed",
   });
 }

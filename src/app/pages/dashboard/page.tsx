@@ -60,7 +60,6 @@ function Dashboard() {
   }
 
   async function signOutUser() {
-    console.log("signoit");
     await supabase.auth.signOut();
     router.refresh();
     router.push("/auth/login");
@@ -74,9 +73,10 @@ function Dashboard() {
           <>
             <div className='flex justify-around mt-10 '>
               <span>
-                <p className="text-4xl font-bold">Hello {user?.user_metadata?.first_name || "User"}!</p>
-                <p className="text-lg">Pick a study-plan</p>
-
+                <p className='text-4xl font-bold'>
+                  Hello {user?.user_metadata?.first_name || "User"}!
+                </p>
+                <p className='text-lg'>Pick a study-plan</p>
               </span>
 
               <DropdownMenu>
@@ -132,9 +132,7 @@ function Dashboard() {
           </>
         ) : (
           <div className='h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased'>
-            <div className='max-w-2xl mx-auto p-4'>
-              Login before you proceed.
-            </div>
+            <div className='max-w-2xl mx-auto p-4'>Loading...</div>
           </div>
         )}
       </>

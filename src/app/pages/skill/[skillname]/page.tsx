@@ -34,6 +34,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Router } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { Threads } from "openai/resources/beta/threads/threads.mjs";
 
 interface PageProps {
   params: {
@@ -117,6 +119,8 @@ function displayExplanationDrawer(
   );
 }
 
+const invalidCredToast = () => {};
+
 function Page({ params }: PageProps) {
   const [weeklyQuestions, setWeeklyQuestions]: any = useState([]);
   const [planID, setPlanID]: [string, Dispatch<SetStateAction<string>>] =
@@ -124,6 +128,7 @@ function Page({ params }: PageProps) {
   const [answer, setAnswer]: [string, Dispatch<SetStateAction<string>>] =
     useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     let data = JSON.stringify({
@@ -177,9 +182,20 @@ function Page({ params }: PageProps) {
 
     axios
       .request(config)
-      .then((response: any) => {
+      .then(async (response: any) => {
         // console.log(JSON.stringify(response.data));
-        window.location.reload();
+        if (response.data.message === "success") {
+          toast({
+            title: "Answer is correct",
+          });
+          await new Promise((r) => setTimeout(r, 2500));
+          window.location.reload();
+        } else {
+          toast({
+            title: "Answer is not correct",
+            variant: "destructive",
+          });
+        }
       })
       .catch((error: any) => {
         console.log(error);
