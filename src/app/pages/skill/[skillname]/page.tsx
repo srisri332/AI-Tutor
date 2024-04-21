@@ -170,7 +170,7 @@ function Page({ params }: PageProps) {
   return (
     <>
       {/*  <div className='flex flex-col justify-center items-center min-w-screen min-h-max '> */}
-      <div className='flex flex-col justify-center items-center min-w-screen min-h-max  dark:bg-black bg-white  dark:bg-grid-white/[0.1] bg-grid-black/[0.2]'>
+      <div className='flex flex-col justify-center items-center min-w-screen min-h-screen  dark:bg-black bg-white  dark:bg-grid-white/[0.1] bg-grid-black/[0.2]'>
         {/* Radial gradient for the container to give a faded look */}
         {/* <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]'></div> */}
         <div>
