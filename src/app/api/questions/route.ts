@@ -47,6 +47,18 @@ export async function POST(req: Request, context: any) {
   // console.log(weeklyQuestions);
   var res: any = [];
   await formatData(weeklyQuestions, res);
-  // console.log(res);
-  return NextResponse.json(res);
+
+  var plan = await supabase
+    .from("study_plan")
+    .select("id")
+    .eq("user_id", `${user.id}`)
+    // .eq("user_id", `84baf86c-0c7b-4888-ae0b-e7d55c631767`) // use for testing
+    .eq("technology", `${body.skill}`);
+
+  console.log(plan.data![0].id);
+  var id = plan.data![0].id;
+  return NextResponse.json({
+    planID: id,
+    questions: res,
+  });
 }
