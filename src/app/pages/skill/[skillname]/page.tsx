@@ -92,7 +92,7 @@ function Page({ params }: PageProps) {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/api/questions",
+      url: `${window?.location?.origin}/api/questions`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -127,7 +127,7 @@ function Page({ params }: PageProps) {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/api/answer",
+      url: `${window?.location?.origin}/api/answer`,
       headers: {
         "Content-Type": "application/json",
       },

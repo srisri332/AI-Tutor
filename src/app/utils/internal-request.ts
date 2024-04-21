@@ -4,7 +4,7 @@ export const checkIfUserAlreadyHasPreferences = async () => {
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: "http://localhost:3000/api/skills",
+    url: `${window?.location?.origin}/api/skills`,
     headers: {
       "Content-Type": "application/json",
     },
