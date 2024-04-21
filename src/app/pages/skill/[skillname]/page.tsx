@@ -34,6 +34,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Router } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { Threads } from "openai/resources/beta/threads/threads.mjs";
 
 interface PageProps {
   params: {
@@ -73,50 +75,6 @@ function displayCompletedIcon(completed: boolean) {
   );
 }
 
-function displayExplanationDrawer(
-  completed: boolean,
-  answer: string,
-  explanation: string
-) {
-  return (
-    <div className='flex align-middle items-center'>
-      <p className='mr-2 ml-3'>You completed this question successfully! </p>
-      <span className='mr-3'>
-        <Drawer>
-          <DrawerTrigger> Explanation / Answer</DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Explanation</DrawerTitle>
-              <DrawerDescription>{explanation}</DrawerDescription>
-              <DrawerTitle>Answer</DrawerTitle>
-              <DrawerDescription>{answer}</DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter>
-              {/* <Button>Submit</Button> */}
-              <DrawerClose>
-                <Button variant='outline'>Close</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </span>
-
-      <svg
-        width='15'
-        height='15'
-        viewBox='0 0 15 15'
-        fill='none'
-        xmlns='http://www.w3.org/2000/svg'>
-        <path
-          d='M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z'
-          fill='green'
-          fill-rule='evenodd'
-          clip-rule='evenodd'></path>
-      </svg>
-    </div>
-  );
-}
-
 function Page({ params }: PageProps) {
   const [weeklyQuestions, setWeeklyQuestions]: any = useState([]);
   const [planID, setPlanID]: [string, Dispatch<SetStateAction<string>>] =
@@ -124,6 +82,7 @@ function Page({ params }: PageProps) {
   const [answer, setAnswer]: [string, Dispatch<SetStateAction<string>>] =
     useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   useEffect(() => {
     let data = JSON.stringify({
@@ -177,9 +136,20 @@ function Page({ params }: PageProps) {
 
     axios
       .request(config)
-      .then((response: any) => {
+      .then(async (response: any) => {
         // console.log(JSON.stringify(response.data));
-        window.location.reload();
+        if (response.data.message === "success") {
+          toast({
+            title: "Answer is correct",
+          });
+          await new Promise((r) => setTimeout(r, 2500));
+          window.location.reload();
+        } else {
+          toast({
+            title: "Answer is not correct",
+            variant: "destructive",
+          });
+        }
       })
       .catch((error: any) => {
         console.log(error);
@@ -226,11 +196,20 @@ function Page({ params }: PageProps) {
                           </AccordionTrigger>
                           <AccordionContent>
                             {question.completed ? (
-                              displayExplanationDrawer(
-                                question.completed,
-                                question.answer,
-                                question.explanation
-                              )
+                              <div className='max-w-xl'>
+                                <div className='m-2'>
+                                  <p className='font-bold'> Explanation</p>
+                                  <p className='text-slate-400'>
+                                    {question.explanation}
+                                  </p>
+                                </div>
+                                <div className='m-2 whitespace-pre-line'>
+                                  <p className='font-bold'>Answer</p>
+                                  <p className='text-slate-400'>
+                                    {question.answer}
+                                  </p>
+                                </div>
+                              </div>
                             ) : (
                               <div className='grid w-full gap-2'>
                                 <Textarea
@@ -288,7 +267,7 @@ function Page({ params }: PageProps) {
         onClick={() => {
           router.back();
         }}
-        className='absolute left-0 top-0 m-5 rounded-full bg-blue-500'>
+        className=' fixed left-0 top-0 m-5 rounded-full bg-blue-500'>
         <svg
           width='15'
           height='15'
