@@ -267,7 +267,7 @@ function Page({ params }: PageProps) {
         onClick={() => {
           router.back();
         }}
-        className='absolute left-0 top-0 m-5 rounded-full bg-blue-500'>
+        className=' fixed left-0 top-0 m-5 rounded-full bg-blue-500'>
         <svg
           width='15'
           height='15'
