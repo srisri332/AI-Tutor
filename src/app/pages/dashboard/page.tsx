@@ -74,7 +74,7 @@ function Dashboard() {
           <>
             <div className="flex justify-around mt-10 ">
               <span>
-                <p className="text-4xl font-bold">Hello User!</p>
+                <p className="text-4xl font-bold">Hello {user?.user_metadata?.first_name || "User"}!</p>
                 <p className="text-lg">Pick a study-plan</p>
               </span>
 

@@ -20,10 +20,10 @@ import axios from "axios";
 export default function Login() {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   const supabase = createClientComponentClient();
@@ -33,7 +33,7 @@ export default function Login() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if (user) {
+      if(user) {
         redirect("/pages/dashboard")
       }
       setLoading(false);
@@ -58,6 +58,13 @@ export default function Login() {
     });
   };
 
+  const userExistsToast = () => {
+    toast({
+      title: "Email Already Exists",
+      variant: "destructive",
+    });
+  };
+
   const serverErrorToast = () => {
     toast({
       title: "Server Error",
@@ -65,53 +72,33 @@ export default function Login() {
     });
   };
 
-  const handleUserJoin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUserEnroll = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
       invalidCredToast();
       return;
     }
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          first_name: name,
+        },
+      },
+
     });
     if (error) {
-      if (error?.message === "Invalid login credentials") {
-        invalidCredToast();
+      if (error.message === "User already registered") {
+        userExistsToast();
       } else {
         serverErrorToast();
       }
       return;
     }
-    router.refresh();
     clearInputFields();
-    redirectOnDemand();
-  };
-
-  const redirectOnDemand = async () => {
-    const userAlreadyHasPreferences = await checkIfUserAlreadyHasPreferences();
-    redirect(
-      userAlreadyHasPreferences ? "/pages/dashboard" : "/pages/planning"
-    );
-  };
-
-  const checkIfUserAlreadyHasPreferences = async () => {
-    let config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: "http://localhost:3000/api/skills",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const response = await axios.request(config);
-    console.log("asdf response", response);
-    if (response.data.length > 0) {
-      console.log("asdf came here");
-      return true;
-    }
-    return false;
+    router.refresh();
+    redirect("/pages/planning");
   };
 
   if (loading) {
@@ -121,15 +108,11 @@ export default function Login() {
           <motion.div
             initial={{ opacity: 0.5, y: 150 }}
             whileInView={{ opacity: 1, y: 150 }}
-            className="w-80 h-[22rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
+            className="w-80 h-[26rem] bg-opacity-35 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black pt-32"
           ></motion.div>
         </LampContainer>
       </div>
     );
-  }
-
-  if (user) {
-    redirect("/");
   }
 
   return (
@@ -143,9 +126,19 @@ export default function Login() {
             duration: 0.5,
             ease: "easeInOut",
           }}
-          className="w-80 h-[22rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black/50 pt-32 isolate aspect-video  bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg "
+          className="w-80 h-[26rem] dark:bg-opacity-85 mx-auto my-auto tracking-tight rounded-none md:rounded-3xl sm:rounded-3xl p-24 md:p-10 shadow-input bg-slate-50  dark:bg-black/50 pt-32 isolate aspect-video  bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg "
         >
-          <form className="my-6" onSubmit={handleUserJoin}>
+          <form className="my-6" onSubmit={handleUserEnroll}>
+            <LabelInputContainer className="mb-4 ">
+              <Label htmlFor="name">Given Name</Label>
+              <Input
+                id="name"
+                placeholder="Peter Parker"
+                type="text"
+                className="backdrop-filter backdrop-blur-lg"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </LabelInputContainer>
             <LabelInputContainer className="mb-4 ">
               <Label htmlFor="email">Email Address</Label>
               <Input
