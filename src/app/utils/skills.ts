@@ -14,7 +14,11 @@ export const skills = [
     value: "Python",
     pun: "The 'snake'-ily elegant language of ML.",
   },
-  { label: "Go", value: "Go", pun: "Where coding 'speed' meets efficiency." },
+  {
+    label: "GoLang",
+    value: "GoLang",
+    pun: "Where coding 'speed' meets efficiency.",
+  },
   { label: "Rust", value: "Rust", pun: "For when you need 'rust'-proof code." },
   {
     label: "C++",
