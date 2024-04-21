@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -9,6 +9,7 @@ import { skills } from "@/app/utils/skills";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { checkIfUserAlreadyHasPreferences } from "@/app/utils/internal-request";
 
 export default function Planning() {
   const [value, setValue] = React.useState<Option[]>([]);
@@ -17,6 +18,9 @@ export default function Planning() {
   const [questions, setQuestions] = useState(1);
   const router = useRouter();
   const { toast } = useToast();
+  const redirect = (path: string) => {
+    router.push(path);
+  };
 
   const selectSkills = () => {
     toast({
@@ -24,6 +28,17 @@ export default function Planning() {
       variant: "destructive",
     });
   };
+
+  useEffect(() => {
+    const check = async () => {
+      const res = await checkIfUserAlreadyHasPreferences();
+      console.log('check', res)
+      if (res) redirect("/pages/dashboard");
+      return res;
+    };
+    check();
+    return () => {};
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
