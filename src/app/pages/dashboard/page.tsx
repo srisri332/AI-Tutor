@@ -45,7 +45,7 @@ function Dashboard() {
     getUser();
 
     axios
-      .get("http://localhost:3000/api/skills")
+      .get(`${window?.location?.origin}/api/skills`)
       .then((data: any) => {
         // the data of skills should be comma separated values
         let skills = data.data[0].skills.replace(/\s+/g, "").split(",");
