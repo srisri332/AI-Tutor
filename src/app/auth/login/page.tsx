@@ -170,7 +170,7 @@ export default function Login() {
               className="bg-gradient-to-br mt-8 relative group/btn from-white dark:from-white dark:to-white  block dark:bg-zinc-800 w-full dark:text-black rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
               type="submit"
             >
-              Join &rarr;
+              Practice &rarr;
               <BottomGradient />
             </button>
           </form>
