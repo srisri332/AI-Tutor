@@ -30,6 +30,8 @@ const config = {
         bentoPurpleStart: "#5b1ffd",
         bentoPurpleVia: "#8e57fd",
         bentoPurpleEnd: "#7828fd",
+        bentoOrangeStart: "#ec490e",
+        bentoOrangeEnd: "#fb8d1a",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
