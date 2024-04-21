@@ -73,7 +73,7 @@ export default function Home() {
               <span className="text-2xl text-white font-semibold z-10">
                 AI Tutor
               </span>
-              <div className="flex space-x-4 text-white text-2xl font-semibold z-10">
+              <div className="flex space-x-4 text-white text-xl font-semibold z-10">
                 {/* <a href="/auth/login" className="underline underline-offset-4">&nbsp;Join&#160;</a> */}
                 <a href="/auth/enroll" className="underline underline-offset-4">
                   Enroll
