@@ -30,13 +30,16 @@ const prompts = [
     // To generate questions for multiple technologies
     id: "MULTIPLE_TECH",
     value: `Generate a study plan for a person with YEARS_OF_EXPERIENCE years of experience to practice TECHNOLOGY. For WEEKS_NUMBER weeks and each week containing minimum QUESTIONS_NUMBER questions on each individual topic
-           `,
+            The answer and explanation field in the JSON object should be empty.       
+    `,
     jsonExample: {
       week1: [
         {
           id: 1,
           question: "question1",
           completed: false,
+          answer: "",
+          explanation: "",
         },
       ],
     },
