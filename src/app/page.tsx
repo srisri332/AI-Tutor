@@ -101,25 +101,23 @@ export default function Home() {
 const TL = () => {
   return (
     <div
-      className='py-10 md:col-span-2 z-10 row-span-1 rounded-xl hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent justify-end flex flex-col space-y-4'
+      className=' md:col-span-2 z-10 row-span-1 rounded-xl hover:shadow-xl transition duration-200 shadow-input dark:shadow-none  dark:bg-black dark:border-white/[0.2] bg-white border border-transparent  flex flex-col space-y-4'
       style={{
         backgroundImage:
-          'url("https://necatikcl.dev/images/card-hello-background.png")',
+          'url("https://raw.githubusercontent.com/srisri332/image_store_dummy/40fea78d85d6e87a022503a4f68d38b86ce4ed50/bgbg.svg")',
         // 'url("/public/card-hello-background.png")',
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}>
-      <div className='z-1 flex'>
+      <div className='z-1 flex justify-evenly items-center h-full w-full'>
         {/* <Skeleton /> */}
         <div className='group-hover/bento:translate-x-2 transition duration-200'>
-          <div className='font-sans font-bold text-4xl text-neutral-600 dark:text-neutral-200 mb-2 mt-2'>
-            {"Customized Study Plan"}
+          <div className='font-sans font-bold text-3xl text-neutral-600 dark:text-neutral-200 mb-2 mt-2'>
+            {"Prepare With AI"}
           </div>
-          <div className='font-sans font-bold text-lg text-gray-500'>
-            {
-              "Our State of the art AI model creates a study plan to suite your needs based on: "
-            }
+          <div className='font-sans  text-lg text-gray-500'>
+            {"Tailor study plans based on "}
             <ul className='pt-4'>
               <li>&#8226; Skills &amp; Technologies</li>
               <li>&#8226; Years of Experience</li>
@@ -127,6 +125,7 @@ const TL = () => {
             </ul>
           </div>
         </div>
+        <Image src='/mac.png' alt='abc' width='160' height='160' />
       </div>
     </div>
   );
