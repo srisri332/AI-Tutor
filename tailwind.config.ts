@@ -27,13 +27,16 @@ const config = {
     extend: {
       colors: {
         dashCard: "#1c1a1e",
+        bentoPurpleStart: "#5b1ffd",
+        bentoPurpleVia: "#8e57fd",
+        bentoPurpleEnd: "#7828fd",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         backgroundImage: {
-          "test-image": "url(/card-hello-background.png)"
+          "test-image": "url(/card-hello-background.png)",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
