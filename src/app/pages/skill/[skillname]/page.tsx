@@ -188,93 +188,121 @@ function Page({ params }: PageProps) {
     console.log(planID, questionID, answer);
   }
 
-  if (weeklyQuestions.length < 1) return <div>Loading...</div>;
+  if (weeklyQuestions.length < 1)
+    return (
+      <div className='flex flex-col justify-center items-center min-w-screen min-h-screen '>
+        <p className='text-3xl font-bold mt-10'></p>
+        <div className=' w-3/4 min-h-40 mt-5 mb-5 bg-slate-900 p-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-md shadow-gray-900'></div>
+        <div className=' w-3/4 min-h-40 mt-5 mb-5 bg-slate-900 p-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-md shadow-gray-900'></div>
+      </div>
+    );
 
   return (
-    <div className='flex flex-col justify-center items-center min-w-screen min-h-max '>
+    <>
+      {/*  <div className='flex flex-col justify-center items-center min-w-screen min-h-max '> */}
+      <div className='flex flex-col justify-center items-center min-w-screen min-h-max  dark:bg-black bg-white  dark:bg-grid-white/[0.1] bg-grid-black/[0.2]'>
+        {/* Radial gradient for the container to give a faded look */}
+        {/* <div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]'></div> */}
+        <div>
+          <p className='text-4xl font-bold mt-10 text-blue-500'>
+            {params.skillname}
+          </p>
+          {weeklyQuestions.map((week: any) => {
+            return (
+              <div
+                key={week.week}
+                className=' w-f min-h-max mt-5 mb-5 bg-slate-900 p-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-md shadow-gray-900'>
+                <p className='text-2xl font-bold mb-2'>{week.week}</p>
+                {week.questions.map((question: any) => {
+                  return (
+                    <div
+                      key={question.id}
+                      className='flex align-middle items-center  w-full'>
+                      {displayCompletedIcon(question.completed)}
+                      <Accordion type='single' collapsible className='w-full'>
+                        <AccordionItem value='item-1'>
+                          <AccordionTrigger>
+                            {question.question}
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            {question.completed ? (
+                              displayExplanationDrawer(
+                                question.completed,
+                                question.answer,
+                                question.explanation
+                              )
+                            ) : (
+                              <div className='grid w-full gap-2'>
+                                <Textarea
+                                  placeholder='Type your answer here'
+                                  onChange={(e) => {
+                                    setAnswer(e.target.value);
+                                  }}
+                                />
+                                <AlertDialog>
+                                  <AlertDialogTrigger className='bg-white text-black h-10 rounded-xl'>
+                                    Submit Answer
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>
+                                        Are you sure?
+                                      </AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Are you sure you want to submit the
+                                        following as answer? You won&apos;t be
+                                        able to submit another answer for the
+                                        next 1 hour.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>
+                                        Cancel
+                                      </AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => {
+                                          submitAnswer(
+                                            question.id,
+                                            question.question
+                                          );
+                                        }}>
+                                        Submit
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </div>
+                            )}
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
       <Button
         onClick={() => {
           router.back();
         }}
-        className='absolute left-0 top-0 m-5'>
-        back
+        className='absolute left-0 top-0 m-5 rounded-full bg-blue-500'>
+        <svg
+          width='15'
+          height='15'
+          viewBox='0 0 15 15'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'>
+          <path
+            d='M6.85355 3.14645C7.04882 3.34171 7.04882 3.65829 6.85355 3.85355L3.70711 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H3.70711L6.85355 11.1464C7.04882 11.3417 7.04882 11.6583 6.85355 11.8536C6.65829 12.0488 6.34171 12.0488 6.14645 11.8536L2.14645 7.85355C1.95118 7.65829 1.95118 7.34171 2.14645 7.14645L6.14645 3.14645C6.34171 2.95118 6.65829 2.95118 6.85355 3.14645Z'
+            fill='currentColor'
+            fill-rule='evenodd'
+            clip-rule='evenodd'></path>
+        </svg>
       </Button>
-      <div>
-        <p className='text-3xl font-bold mt-10'>{params.skillname}</p>
-      </div>
-
-      {weeklyQuestions.map((week: any) => {
-        return (
-          <div
-            key={week.week}
-            className=' w-3/4 min-h-max mt-5 mb-5 bg-slate-900 p-10 backdrop-filter backdrop-blur-lg rounded-2xl shadow-md shadow-gray-900'>
-            <p className='text-2xl font-bold mb-2'>{week.week}</p>
-            {week.questions.map((question: any) => {
-              return (
-                <div
-                  key={question.id}
-                  className='flex align-middle items-center  w-full'>
-                  {displayCompletedIcon(question.completed)}
-                  <Accordion type='single' collapsible className='w-full'>
-                    <AccordionItem value='item-1'>
-                      <AccordionTrigger>{question.question}</AccordionTrigger>
-                      <AccordionContent>
-                        {question.completed ? (
-                          displayExplanationDrawer(
-                            question.completed,
-                            question.answer,
-                            question.explanation
-                          )
-                        ) : (
-                          <div className='grid w-full gap-2'>
-                            <Textarea
-                              placeholder='Type your answer here'
-                              onChange={(e) => {
-                                setAnswer(e.target.value);
-                              }}
-                            />
-                            <AlertDialog>
-                              <AlertDialogTrigger className='bg-white text-black h-10 rounded-xl'>
-                                Submit Answer
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>
-                                    Are you sure?
-                                  </AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Are you sure you want to submit the
-                                    following as answer? You won&apos;t be able
-                                    to submit another answer for the next 1
-                                    hour.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => {
-                                      submitAnswer(
-                                        question.id,
-                                        question.question
-                                      );
-                                    }}>
-                                    Submit
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
-                        )}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
+    </>
   );
 }
 
