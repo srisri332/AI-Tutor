@@ -57,7 +57,7 @@ export default function Planning() {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/api/debut",
+      url: `${window?.location?.href}/api/debut`,
       headers: {
         "Content-Type": "application/json",
       },
