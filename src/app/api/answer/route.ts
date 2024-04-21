@@ -8,7 +8,8 @@ import { cookies } from "next/headers";
 async function updateCompletedStatus(
   study_plan: any,
   body: any,
-  status: boolean
+  status: boolean,
+  explanation: string
 ) {
   try {
     for (let week in study_plan) {
@@ -16,6 +17,8 @@ async function updateCompletedStatus(
         study_plan[week].forEach((question: any) => {
           if (question.id == body.question_id) {
             question.completed = status;
+            question.answer = body.answer;
+            question.explanation = explanation;
           }
         });
       }
@@ -55,7 +58,12 @@ export async function POST(req: Request) {
     // console.log(data![0].questions);
     var study_plan = data![0].questions;
 
-    let updateStatus = await updateCompletedStatus(study_plan, body, true);
+    let updateStatus = await updateCompletedStatus(
+      study_plan,
+      body,
+      true,
+      answerRes.explanation
+    );
     if (updateStatus === "error") {
       throw new Error("cannot update the question status");
     }
