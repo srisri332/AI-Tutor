@@ -72,6 +72,13 @@ export default function Login() {
     });
   };
 
+  const checkEmailForVerificationLink = () => {
+    toast({
+      title: "Verification Link Sent",
+      description: "Please check your email, this may take a few minutes "
+    });
+  };
+
   const handleUserEnroll = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !password) {
@@ -85,6 +92,7 @@ export default function Login() {
         data: {
           first_name: name,
         },
+        emailRedirectTo: `${window?.location?.origin}/auth/callback`
       },
 
     });
@@ -95,10 +103,14 @@ export default function Login() {
         serverErrorToast();
       }
       return;
+    }else {
+      checkEmailForVerificationLink()
     }
-    clearInputFields();
+    // clearInputFields();
     router.refresh();
-    redirect("/pages/planning");
+    setTimeout(() => {
+      redirect("/");
+    }, 5000)
   };
 
   if (loading) {
