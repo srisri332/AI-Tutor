@@ -78,7 +78,7 @@ export default function Home() {
                   Enroll
                 </a>
                 <a href='/auth/login' className='underline underline-offset-4'>
-                  Practice
+                  Resume
                 </a>
               </div>
             </div>
