@@ -101,9 +101,15 @@ function Page({ params }: PageProps) {
 
   function submitAnswer(questionID: number, question: string) {
     if (!answer) {
-      throw new Error("Answer is empty, please enter an answer");
+      toast({
+        title: "Answer is empty, please enter an answer",
+        variant: "destructive",
+      });
+      return;
     }
-
+    toast({
+      title: "Processing your answer, please wait.",
+    });
     const axios = require("axios");
     let data = JSON.stringify({
       plan_id: planID,
