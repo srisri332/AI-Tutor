@@ -63,6 +63,9 @@ function Dashboard() {
         setPuns(temp);
       })
       .catch((error) => {
+        if (user === undefined || user === null) {
+          router.push(`/auth/login`);
+        }
         console.log(error);
       });
   }, []);

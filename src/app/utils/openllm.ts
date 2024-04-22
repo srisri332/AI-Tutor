@@ -15,7 +15,7 @@ async function callGptApi(prompt: any) {
       {
         role: "system",
         content:
-          "Provide output in valid JSON. The data schema should be like this: " +
+          "Provide output in valid JSON. The id field each question should be unique and sequential. The data schema should be like this: " +
           JSON.stringify(prompt.jsonExample),
       },
       { role: "user", content: prompt.value },
