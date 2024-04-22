@@ -155,7 +155,7 @@ function Page({ params }: PageProps) {
         console.log(error);
       });
 
-    console.log(planID, questionID, answer);
+    // console.log(planID, questionID, answer);
   }
 
   if (weeklyQuestions.length < 1)

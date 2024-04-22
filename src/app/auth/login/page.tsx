@@ -58,6 +58,15 @@ export default function Login() {
     });
   };
 
+  const verificationPending = () => {
+    toast({
+      title: "Verification Pending",
+      description:
+        "Please click on the link in your email to verify your account. If you did not recieve an email, please enroll again.",
+      variant: "destructive",
+    });
+  };
+
   const enterEmailToReset = () => {
     toast({
       title: "Enter your email to reset password",
@@ -91,6 +100,8 @@ export default function Login() {
     if (error) {
       if (error?.message === "Invalid login credentials") {
         invalidCredToast();
+      } else if (error?.message === "Email not confirmed") {
+        verificationPending();
       } else {
         serverErrorToast();
       }
@@ -134,9 +145,7 @@ export default function Login() {
     };
 
     const response = await axios.request(config);
-    console.log("asdf response", response);
     if (response.data.length > 0) {
-      console.log("asdf came here");
       return true;
     }
     return false;

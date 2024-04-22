@@ -33,8 +33,8 @@ export default function Login() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      if(user) {
-        redirect("/pages/dashboard")
+      if (user) {
+        redirect("/pages/dashboard");
       }
       setLoading(false);
     };
@@ -53,7 +53,7 @@ export default function Login() {
 
   const invalidCredToast = () => {
     toast({
-      title: "Invalid email and password",
+      title: "Invalid Email and Password",
       variant: "destructive",
     });
   };
@@ -65,6 +65,14 @@ export default function Login() {
     });
   };
 
+  const weakPasswordToast = () => {
+    toast({
+      title: "Weak Password",
+      description: "Please create a stronger password.",
+      variant: "destructive",
+    });
+  };
+
   const serverErrorToast = () => {
     toast({
       title: "Server Error",
@@ -72,10 +80,18 @@ export default function Login() {
     });
   };
 
+  const emailAlreadyExists = () => {
+    toast({
+      title: "Email Already Exists",
+      description: "Please login or try enrolling with a different email.",
+      variant: "destructive",
+    });
+  };
+
   const checkEmailForVerificationLink = () => {
     toast({
       title: "Verification Link Sent",
-      description: "Please check your email, this may take a few minutes "
+      description: "Please check your email, this may take a few minutes.",
     });
   };
 
@@ -92,25 +108,30 @@ export default function Login() {
         data: {
           first_name: name,
         },
-        emailRedirectTo: `${window?.location?.origin}/auth/callback`
+        emailRedirectTo: `${window?.location?.origin}/auth/callback`,
       },
-
     });
+    if (data?.user?.identities?.length === 0) {
+      emailAlreadyExists();
+      return;
+    }
     if (error) {
       if (error.message === "User already registered") {
         userExistsToast();
+      } else if (error?.code === "weak_password") {
+        weakPasswordToast();
       } else {
         serverErrorToast();
       }
       return;
-    }else {
-      checkEmailForVerificationLink()
+    } else {
+      checkEmailForVerificationLink();
     }
     // clearInputFields();
     router.refresh();
     setTimeout(() => {
       redirect("/");
-    }, 5000)
+    }, 5000);
   };
 
   if (loading) {

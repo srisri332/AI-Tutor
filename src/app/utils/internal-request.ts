@@ -11,9 +11,7 @@ export const checkIfUserAlreadyHasPreferences = async () => {
   };
 
   const response = await axios.request(config);
-  console.log("asdf response", response);
   if (response.data.length > 0) {
-    console.log("asdf came here");
     return true;
   }
   return false;
