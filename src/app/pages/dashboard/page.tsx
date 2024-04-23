@@ -64,7 +64,7 @@ function Dashboard() {
       })
       .catch((error) => {
         if (user === undefined || user === null) {
-          router.push(`/auth/login`);
+          router.push(`/pages/planning`);
         }
         console.log(error);
       });
