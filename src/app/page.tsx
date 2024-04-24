@@ -6,8 +6,6 @@ import {
 } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import {
   IconClipboardCopy,
@@ -64,9 +62,6 @@ export default function Home() {
           />
         )}
       </div>
-      {/* <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white relative z-20">
-        Build great products
-      </h1> */}
       <div className='bg-black h-auto'>
         <nav
           // className="sticky bg-white top-0 z-10 backdrop-filter backdrop-blur-lg bg-opacity-30 bg-white/20 shadow-md ring-1 ring-black/5  backdrop-filter backdrop-blur-lg"
@@ -79,7 +74,6 @@ export default function Home() {
                 AI Tutor
               </span>
               <div className='flex space-x-4 text-white text-xl font-semibold z-10'>
-                {/* <a href="/auth/login" className="underline underline-offset-4">&nbsp;Join&#160;</a> */}
                 <a href='/auth/enroll' className='underline underline-offset-4'>
                   Enroll
                 </a>
@@ -111,13 +105,11 @@ const TL = () => {
       style={{
         backgroundImage:
           'url("https://raw.githubusercontent.com/srisri332/image_store_dummy/40fea78d85d6e87a022503a4f68d38b86ce4ed50/bgbg.svg")',
-        // 'url("/public/card-hello-background.png")',
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}>
       <div className='z-1 flex justify-evenly items-center h-full w-full'>
-        {/* <Skeleton /> */}
         <div className='group-hover/bento:translate-x-2 transition duration-200'>
           <div className='font-sans font-bold text-3xl text-neutral-600 dark:text-neutral-200 mb-2 mt-2'>
             {"Prepare With AI"}
@@ -141,11 +133,7 @@ const TR = () => {
   return (
     <div className='md:col-span-1 z-10 row-span-1 bg-gradient-to-br from-bentoPurpleStart via-bentoPurpleVia to-bentoPurpleStart rounded-xl hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent justify-between flex flex-col space-y-4'>
       <div className='z-1 h-full'>
-        {/* <Skeleton /> */}
         <div className='flex flex-col justify-evenly align-middle items-center content-center group-hover/bento:translate-x-2 transition duration-200  0 h-full rounded-lg'>
-          {/* <div className='font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2'>
-            {"AI"}
-          </div> */}
           <Image src='/ui1.png' alt='abc' width='160' height='160' />
         </div>
       </div>
@@ -158,15 +146,11 @@ const BL = () => {
     <div
       className='md:col-span-1 z-10 row-span-1 rounded-xl hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 bg-gradient-to-br from-bentoOrangeStart  to-bentoOrangeEnd dark:border-white/[0.2] bg-white border border-transparent justify-between flex flex-col space-y-4' // "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-black dark:border-white/[0.2] bg-white border border-transparent justify-between flex flex-col space-y-4",
       style={{
-        // backgroundImage:
-        //   'url("https://necatikcl.dev/images/card-hello-background.png")',
-        // 'url("/public/card-hello-background.png")',
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}>
       <div className='z-1 h-full'>
-        {/* <Skeleton /> */}
         <div className=' flex flex-col justify-evenly align-middle items-center content-center group-hover/bento:translate-x-2 transition duration-200 h-full'>
           <Image src='/brain.png' alt='abc' width='190' height='190' />
         </div>
@@ -182,13 +166,10 @@ const BR = () => {
       style={{
         backgroundImage:
           'url("https://necatikcl.dev/images/card-skills-background.png")',
-        // 'url("/public/card-hello-background.png")',
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
-      }}
-      // https://necatikcl.dev/images/card-skills-tree-row.png
-    >
+      }}>
       <div className='z-1 relative'>
         <div>
           <Image
@@ -239,21 +220,21 @@ const items = [
   {
     title: "The Dawn of Innovation",
     description: "Explore the birth of groundbreaking ideas and inventions.",
-    header: <Skeleton />,
+    // header: <Skeleton />,
     className: "md:col-span-2 z-10",
     icon: <IconClipboardCopy className='h-4 w-4 text-neutral-500' />,
   },
   {
     title: "The Digital Revolution",
     description: "Dive into the transformative power of technology.",
-    header: <Skeleton />,
+    // header: <Skeleton />,
     className: "md:col-span-1 dark:bg-black",
     icon: <IconFileBroken className='h-4 w-4 text-neutral-500' />,
   },
   {
     title: "The Art of Design",
     description: "Discover the beauty of thoughtful and functional design.",
-    header: <Skeleton />,
+    // header: <Skeleton />,
     className: "md:col-span-1",
     icon: <IconSignature className='h-4 w-4 text-neutral-500' />,
   },
@@ -261,7 +242,7 @@ const items = [
     title: "The Power of Communication",
     description:
       "Understand the impact of effective communication in our lives.",
-    header: <Skeleton />,
+    // header: <Skeleton />,
     className: "md:col-span-2 z-10",
     icon: <IconTableColumn className='h-4 w-4 text-neutral-500' />,
   },
