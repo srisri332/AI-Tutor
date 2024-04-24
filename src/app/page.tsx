@@ -191,20 +191,23 @@ const BR = () => {
     >
       <div className='z-1 relative'>
         <div>
-          <img
-            src='https://necatikcl.dev/images/card-skills-tree-row.png'
+          <Image
+            src='/card-skills-tree-row.png'
+            alt='skills'
             className='rotate-12 absolute -top-10 left-44 z-10 '
             width='80'
             height='80'
           />
-          <img
-            src='https://necatikcl.dev/images/card-skills-tree-row.png'
+          <Image
+            src='/card-skills-tree-row.png'
+            alt='skills'
             className='rotate-12 absolute -top-[22rem] left-[23rem] z-10 '
             width='80'
             height='80'
           />
-          <img
-            src='https://necatikcl.dev/images/card-skills-tree-row.png'
+          <Image
+            src='/card-skills-tree-row.png'
+            alt='skills'
             className='rotate-12 absolute -top-[57rem] left-[26.5rem] z-10 '
             width='80'
             height='80'
