@@ -48,15 +48,21 @@ export default function Home() {
     // <div className="relative w-full min-h-screen h-full bg-black flex flex-col items-center justify-center rounded-md">
     <div className='relative w-full min-h-screen h-full bg-black flex flex-col items-center  rounded-md'>
       <div className='w-full absolute inset-0'>
-        <SparklesCore
-          id='tsparticlesfullpage'
-          background='transparent'
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className='w-full h-full min-h-screen'
-          particleColor='#FFFFFF'
-        />
+        {loading ? (
+          <div className='absolute top border border-white rounded-lg m-5 p-2 right-0 '>
+            Loading...
+          </div>
+        ) : (
+          <SparklesCore
+            id='tsparticlesfullpage'
+            background='transparent'
+            minSize={0.6}
+            maxSize={1.4}
+            particleDensity={100}
+            className='w-full h-full min-h-screen'
+            particleColor='#FFFFFF'
+          />
+        )}
       </div>
       {/* <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white relative z-20">
         Build great products
