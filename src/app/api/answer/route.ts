@@ -49,37 +49,43 @@ export async function POST(req: Request) {
   let answerRes = await processAnswer(body.question, body.answer);
   console.log(answerRes);
 
+  // fetching all the question for the study plan
+  var { data, error } = await supabase
+    .from("study_plan")
+    .select("questions")
+    .eq("id", `${body.plan_id}`);
+
+  // console.log(data![0].questions);
+  var study_plan = data![0].questions;
+
+  var passed = false;
   if (answerRes.score >= 7) {
-    var { data, error } = await supabase
-      .from("study_plan")
-      .select("questions")
-      .eq("id", `${body.plan_id}`);
-
-    // console.log(data![0].questions);
-    var study_plan = data![0].questions;
-
-    let updateStatus = await updateCompletedStatus(
-      study_plan,
-      body,
-      true,
-      answerRes.explanation
-    );
-    if (updateStatus === "error") {
-      throw new Error("cannot update the question status");
-    }
-
-    const res = await supabase
-      .from("study_plan")
-      .update({ questions: study_plan })
-      .eq("id", `${body.plan_id}`)
-      .select();
-
-    return NextResponse.json({
-      message: "success",
-    });
+    passed = true;
   }
 
-  return NextResponse.json({
-    message: "failed",
-  });
+  // updating that particular question object by iterating
+  let updateStatus = await updateCompletedStatus(
+    study_plan,
+    body,
+    passed,
+    answerRes.explanation
+  );
+  if (updateStatus === "error") {
+    throw new Error("cannot update the question status");
+  }
+
+  // saving the value again against the questions column in study plan
+  const res = await supabase
+    .from("study_plan")
+    .update({ questions: study_plan })
+    .eq("id", `${body.plan_id}`)
+    .select();
+
+  return passed
+    ? NextResponse.json({
+        message: "success",
+      })
+    : NextResponse.json({
+        message: "failed",
+      });
 }
